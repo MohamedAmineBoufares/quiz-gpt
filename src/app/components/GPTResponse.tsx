@@ -1,10 +1,14 @@
 "use client";
 
 import { useStore } from "@/store";
-import React from "react";
+import React, { useMemo } from "react";
 
 function GPTResponse() {
   const storedContent = useStore((state) => state.storedContent);
+
+  console.log("storedContent", storedContent?.content.split("\n\n"));
+
+  const formattedObject = useMemo(() => {}, []);
 
   if (!storedContent) {
     return (
@@ -16,7 +20,13 @@ function GPTResponse() {
     );
   }
 
-  return <div className="text-yellow-200">{storedContent?.content}</div>;
+  console.log("formattedObject", formattedObject);
+
+  return (
+    <div className="text-yellow-200 h-full border border-white rounded-md">
+      {storedContent?.content}
+    </div>
+  );
 }
 
 export default GPTResponse;
