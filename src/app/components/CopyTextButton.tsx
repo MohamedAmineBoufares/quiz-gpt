@@ -15,7 +15,7 @@ function CopyTextButton({ payload }: { payload: Payload }) {
   return (
     <div className="flex justify-end">
       <TooltipProvider>
-        <Tooltip>
+        <Tooltip delayDuration={100}>
           <TooltipTrigger>
             <Toggle
               aria-label="Toggle bold"

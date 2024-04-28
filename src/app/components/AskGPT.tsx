@@ -45,11 +45,9 @@ function AskGPT() {
     setData((prevState) => [...prevState, newValue]);
   };
 
-  console.log("data", data);
-
   return (
     <div className="h-full">
-      <ScrollArea className="border border-white rounded-md h-[80%]">
+      <ScrollArea className="border border-white rounded-md h-[45rem]">
         {data.map((message, idx) => (
           <MessageBox key={`message-${idx + 10}`} id={idx + 1} {...message} />
         ))}
