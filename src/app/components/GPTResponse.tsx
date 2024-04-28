@@ -33,7 +33,7 @@ function GPTResponse() {
 
   if (!questions.length) {
     return (
-      <div className="flex justify-center items-center text-white h-full border border-white rounded-md">
+      <div className="flex justify-center items-center text-white h-[55rem] border border-white rounded-md">
         <h1 className="text-2xl text-center">
           Ask the GPT, Click on the magic button ✨ <br /> and see the MAGIC!
         </h1>
@@ -41,10 +41,8 @@ function GPTResponse() {
     );
   }
 
-  console.log("questions", questions);
-
   return (
-    <ScrollArea className="h-[50rem] border border-white rounded-md p-5">
+    <ScrollArea className="h-[55rem] border border-white rounded-md p-5">
       {questions.map((props, idx) => (
         <QuestionItem key={`question-item-${idx + 1}`} {...props} />
       ))}

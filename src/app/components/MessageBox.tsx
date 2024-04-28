@@ -1,12 +1,15 @@
 import { ResponseBody } from "@/types";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import CopyTextButton from "./CopyTextButton";
+import DotsLoader from "@/components/ui/dots-loader";
 
 const humanAvatar =
   "https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Prescription01&hairColor=SilverGray&facialHairType=BeardLight&facialHairColor=Red&clotheType=Overall&clotheColor=Blue02&eyeType=Happy&eyebrowType=DefaultNatural&mouthType=Disbelief&skinColor=Tanned";
 
 function MessageBox({ content, role, id }: ResponseBody & { id: number }) {
   const isGpt = role === "assistant";
+  const isLoading = content === "loading";
+
   return (
     <div
       className={`flex items-start m-3 gap-2 ${
@@ -26,10 +29,10 @@ function MessageBox({ content, role, id }: ResponseBody & { id: number }) {
             isGpt ? "bg-purple-600 " : "bg-blue-500"
           }`}
         >
-          <p>{content}</p>
+          <p>{isLoading ? <DotsLoader /> : content}</p>
         </div>
 
-        {isGpt && <CopyTextButton payload={{ id, content }} />}
+        {isGpt && !isLoading && <CopyTextButton payload={{ id, content }} />}
       </div>
     </div>
   );

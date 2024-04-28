@@ -7,6 +7,7 @@ import { ResponseBody } from "../../types";
 import Spinner from "@/components/ui/spinner";
 import MessageBox from "./MessageBox";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import NoDiscussion from "./NoDiscussion";
 
 function AskGPT() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -24,7 +25,10 @@ function AskGPT() {
     });
 
     const data = await response.json();
-    setData((prevState) => [...prevState, ...data]);
+    setData((prevState) => [
+      ...prevState.filter((item) => item.content !== "loading"),
+      ...data,
+    ]);
     setLoading(false);
   };
 
@@ -41,17 +45,26 @@ function AskGPT() {
       content: value,
     };
 
+    const loadingValue: ResponseBody = {
+      role: "assistant",
+      content: "loading",
+    };
+
     postQuestion(value);
-    setData((prevState) => [...prevState, newValue]);
+    setData((prevState) => [...prevState, newValue, loadingValue]);
   };
 
   return (
     <div className="h-full">
-      <ScrollArea className="border border-white rounded-md h-[45rem]">
-        {data.map((message, idx) => (
-          <MessageBox key={`message-${idx + 10}`} id={idx + 1} {...message} />
-        ))}
-      </ScrollArea>
+      {data.length > 0 ? (
+        <ScrollArea className="border border-white rounded-md h-[45rem]">
+          {data.map((message, idx) => (
+            <MessageBox key={`message-${idx + 10}`} id={idx + 1} {...message} />
+          ))}
+        </ScrollArea>
+      ) : (
+        <NoDiscussion />
+      )}
 
       <div className="flex flex-col mt-2 gap-1 items-end">
         <Button
@@ -62,7 +75,11 @@ function AskGPT() {
           {loading ? <Spinner /> : "Ask GPT"}
         </Button>
 
-        <Textarea className="bg-transparent text-white" ref={inputRef} />
+        <Textarea
+          className="bg-transparent text-white"
+          ref={inputRef}
+          placeholder="Ask me what you want..."
+        />
       </div>
     </div>
   );
